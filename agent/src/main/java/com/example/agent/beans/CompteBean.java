@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +15,7 @@ public class CompteBean {
     private float solde;
     private String nomClient;
     private String typeCompte;
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
 
 }

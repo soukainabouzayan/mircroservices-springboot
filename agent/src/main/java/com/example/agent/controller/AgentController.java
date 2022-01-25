@@ -25,29 +25,29 @@ public class AgentController {
     @GetMapping("/all")
     public ResponseEntity<List<Agent>> getAllAgent () {
         List<Agent> agents = agentService.getAllAgent();
-        return new ResponseEntity<>(agents, HttpStatus.OK);
+        return new ResponseEntity<List<Agent>>(agents, HttpStatus.OK);
     }
 
     @GetMapping("/agent/{email}")
     public ResponseEntity<Agent> getAgentByEmail (@PathVariable("email") String email) {
         Agent agent=agentService.getAgentByEmail(email);
-        return new ResponseEntity<>(agent,HttpStatus.OK);
+        return new ResponseEntity<Agent>(agent,HttpStatus.OK);
     }
     @PostMapping("/add")
     public ResponseEntity<Agent> addAgent(@RequestBody Agent agent) throws Exception{
         Agent newAgent = agentService.addAgent(agent);
-        return new ResponseEntity<>(newAgent,HttpStatus.CREATED);
+        return new ResponseEntity<Agent>(newAgent,HttpStatus.CREATED);
     }
     @PutMapping("/update")
     public ResponseEntity<Agent> updateAgent(@RequestBody Agent agent) throws Exception {
         Agent updateAgent = agentService.updateAgent(agent);
-        return new ResponseEntity<>(updateAgent, HttpStatus.OK);
+        return new ResponseEntity<Agent>(updateAgent, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteAgent(@PathVariable("id") Long id) throws Exception{
+    public ResponseEntity<Agent> deleteAgent(@PathVariable("id") Long id) throws Exception{
         agentService.deleteAgent(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<Agent>(HttpStatus.OK);
     }
     ///compte infos
     @GetMapping("/compte/all")
