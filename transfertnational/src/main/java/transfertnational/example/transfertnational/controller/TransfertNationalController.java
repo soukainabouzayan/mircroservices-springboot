@@ -51,14 +51,14 @@ public class TransfertNationalController {
         return new ResponseEntity<>(newTransfert,HttpStatus.CREATED);
     }
     ////update nombre jours (restitué transfert)
-    @PatchMapping("restitue/{id}/{nombreJours}")
+    @PatchMapping("restituer/{id}/{nombreJours}")
     public ResponseEntity<TransfertNational> restituerTransfert(@PathVariable("id") Long id, @PathVariable("nombreJours") int nombreJours){
         TransfertNational transfertNational=transfertNationalService.updateTransfertNombreJours(id,nombreJours);
         transfertNational=transfertNationalService.updateTransfertStatus(id,"restitie");
         return new ResponseEntity<>(transfertNational, HttpStatus.OK);
     }
     /// bloquer un transfert
-    @PatchMapping("status/bloque/{id}/{solde}")
+    @PatchMapping("status/bloquer/{id}/{solde}")
     public ResponseEntity<TransfertNational> bloquerTransfert(@PathVariable("id") Long id,@PathVariable("solde") float solde){
         TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,"bloqué");
         Long idCompte = transfertNational.getIdCompte();
@@ -66,7 +66,7 @@ public class TransfertNationalController {
         return new ResponseEntity<>(transfertNational, HttpStatus.OK);
     }
     ///// extourner un transfert
-    @PatchMapping("status/extoune/{id}/{solde}")
+    @PatchMapping("status/extourner/{id}/{solde}")
     public ResponseEntity<TransfertNational> extournerTransfert(@PathVariable("id") Long id,@PathVariable("solde") float solde){
         TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,"bloqué");
         Long idCompte = transfertNational.getIdCompte();
@@ -74,7 +74,7 @@ public class TransfertNationalController {
         return new ResponseEntity<>(transfertNational, HttpStatus.OK);
     }
     //debloquer un transfert
-    @PatchMapping("status/extoune/{id}/{solde}")
+    @PatchMapping("status/debloquer/{id}/{solde}")
     public ResponseEntity<TransfertNational> debloquerTransfert(@PathVariable("id") Long id,@PathVariable("solde") float solde){
         TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,"debloqué");
         Long idCompte = transfertNational.getIdCompte();
