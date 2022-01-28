@@ -37,6 +37,7 @@ public class TransfertNationalService {
     public List<TransfertNational> getTransfertNationalByIdClientAndIdBeneficiaire(Long idClient,Long idBeneficiaire){
         return transfertNationalRepository.findTransfertNationalByIdClientAndIdBeneficiaire(idClient,idBeneficiaire);
     }
+
     ////add transfert
     public TransfertNational addTransfert(TransfertNational transfertNational){
         return transfertNationalRepository.save(transfertNational);

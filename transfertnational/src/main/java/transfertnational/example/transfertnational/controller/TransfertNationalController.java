@@ -50,18 +50,38 @@ public class TransfertNationalController {
         TransfertNational newTransfert = transfertNationalService.addTransfert(transfert);
         return new ResponseEntity<>(newTransfert,HttpStatus.CREATED);
     }
-    ////update nombre jours
-    @PatchMapping("update/{id}/{nombreJours}")
-    public ResponseEntity<TransfertNational> updateNombreJours(@PathVariable("id") Long id, @PathVariable("nombreJours") int nombreJours){
+    ////update nombre jours (restitué transfert)
+    @PatchMapping("restitue/{id}/{nombreJours}")
+    public ResponseEntity<TransfertNational> restituerTransfert(@PathVariable("id") Long id, @PathVariable("nombreJours") int nombreJours){
         TransfertNational transfertNational=transfertNationalService.updateTransfertNombreJours(id,nombreJours);
+        transfertNational=transfertNationalService.updateTransfertStatus(id,"restitie");
         return new ResponseEntity<>(transfertNational, HttpStatus.OK);
     }
-    ///update Status
-    @PatchMapping("update/status/{id}/{status}")
-    public ResponseEntity<TransfertNational> updateStatus(@PathVariable("id") Long id, @PathVariable("status") String status){
-        TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,status);
+    /// bloquer un transfert
+    @PatchMapping("status/bloque/{id}/{solde}")
+    public ResponseEntity<TransfertNational> bloquerTransfert(@PathVariable("id") Long id,@PathVariable("solde") float solde){
+        TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,"bloqué");
+        Long idCompte = transfertNational.getIdCompte();
+        microserviceCompteProxy.debiterCompte(idCompte,solde);
         return new ResponseEntity<>(transfertNational, HttpStatus.OK);
     }
+    ///// extourner un transfert
+    @PatchMapping("status/extoune/{id}/{solde}")
+    public ResponseEntity<TransfertNational> extournerTransfert(@PathVariable("id") Long id,@PathVariable("solde") float solde){
+        TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,"bloqué");
+        Long idCompte = transfertNational.getIdCompte();
+        microserviceCompteProxy.debiterCompte(idCompte,solde);
+        return new ResponseEntity<>(transfertNational, HttpStatus.OK);
+    }
+    //debloquer un transfert
+    @PatchMapping("status/extoune/{id}/{solde}")
+    public ResponseEntity<TransfertNational> debloquerTransfert(@PathVariable("id") Long id,@PathVariable("solde") float solde){
+        TransfertNational transfertNational=transfertNationalService.updateTransfertStatus(id,"debloqué");
+        Long idCompte = transfertNational.getIdCompte();
+        microserviceCompteProxy.crediterCompte(idCompte,solde);
+        return new ResponseEntity<>(transfertNational, HttpStatus.OK);
+    }
+
 
     //get all comptes
     @GetMapping("/compte/all")
@@ -75,11 +95,7 @@ public class TransfertNationalController {
     ResponseEntity<CompteBean> findCompteBynumCompte(@PathVariable("numCompte") String numCompte){
         return microserviceCompteProxy.findCompteBynumCompte(numCompte);
     }
-    // debiter le compte
-    @PutMapping("/compte/update/{id}/{solde}")
-    public ResponseEntity<CompteBean> updateCompte(@PathVariable("id") Long id,@PathVariable("solde") float solde){
-        return microserviceCompteProxy.updateCompte(id,solde);
-    }
+
 
 
 
